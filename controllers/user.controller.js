@@ -63,7 +63,15 @@ if(!email || !password){
     const payload = {userdId : user.id,
         
     };
-    const token =  jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"1h"})
+    const token =  jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"2m"})
+    const refreshToken  = jwt.sign(payload,process.env.REFRESH_JWT_SECRET,{expiresIn:"2d"});
+
+    res.cookie("refreshToken",refreshToken,{
+         httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+    })
     
 const {password,...safeUser} = user;
 
